@@ -1,0 +1,25 @@
+{
+  "name": "tubes-matkul-api",
+  "version": "1.0.0",
+  "description": "Anime & Manga Watchlist Tracker API - Spesifikasi & Dokumentasi",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "homepage": "https://github.com/mohyusfi/tubes-matkul-api#readme",
+  "bugs": {
+    "url": "https://github.com/mohyusfi/tubes-matkul-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohyusfi/tubes-matkul-api.git"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
+    "node-cache": "^5.1.2"
+  }
+}
