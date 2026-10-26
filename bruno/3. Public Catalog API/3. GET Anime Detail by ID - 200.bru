@@ -1,0 +1,33 @@
+meta {
+  name: 3. GET Anime Detail by ID - 200
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/public/anime/20
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.mal_id: eq 20
+}
+
+tests {
+  test("Status code is 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Detail anime schema has title, score, episodes and genres", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.true;
+    expect(data.data.mal_id).to.equal(20);
+    expect(data.data.title).to.include("Naruto");
+    expect(data.data).to.have.property("episodes");
+    expect(data.data).to.have.property("score");
+    expect(data.data).to.have.property("genres");
+  });
+}

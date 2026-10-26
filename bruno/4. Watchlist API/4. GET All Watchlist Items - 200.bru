@@ -1,0 +1,39 @@
+meta {
+  name: 4. GET All Watchlist Items - 200
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/watchlist
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.count: gte 1
+  res.body.data.length: gte 1
+}
+
+tests {
+  test("Status code is 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns watchlist array belonging to current user", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.true;
+    expect(data.count).to.be.at.least(1);
+    expect(Array.isArray(data.data)).to.be.true;
+    
+    const item = data.data.find(i => i.id === bru.getEnvVar("watchlistId"));
+    expect(item).to.be.an("object");
+    expect(item.title).to.equal("Fullmetal Alchemist: Brotherhood");
+  });
+}

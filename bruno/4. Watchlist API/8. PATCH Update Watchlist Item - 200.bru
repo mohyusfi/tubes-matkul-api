@@ -1,0 +1,51 @@
+meta {
+  name: 8. PATCH Update Watchlist Item - 200
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/api/watchlist/{{watchlistId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "progress": 64,
+    "status": "completed",
+    "score": 10,
+    "notes": "Tamat! Anime terbaik sepanjang masa."
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.progress: eq 64
+  res.body.data.status: eq completed
+}
+
+tests {
+  test("Status code is 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Updated fields reflect new progress and status", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.true;
+    expect(data.data.id).to.equal(bru.getEnvVar("watchlistId"));
+    expect(data.data.progress).to.equal(64);
+    expect(data.data.status).to.equal("completed");
+    expect(data.data.score).to.equal(10);
+    expect(data.data.notes).to.equal("Tamat! Anime terbaik sepanjang masa.");
+  });
+}

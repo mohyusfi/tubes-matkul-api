@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Anime & Manga Watchlist Tracker API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

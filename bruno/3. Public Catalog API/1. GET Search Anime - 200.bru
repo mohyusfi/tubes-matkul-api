@@ -1,0 +1,46 @@
+meta {
+  name: 1. GET Search Anime - 200
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/public/anime?q=naruto&limit=5
+  body: none
+  auth: none
+}
+
+params:query {
+  q: naruto
+  limit: 5
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.count: eq 5
+  res.body.data.length: eq 5
+}
+
+tests {
+  test("Status code is 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Cache header X-Cache-Status exists", function() {
+    const headers = res.getHeaders();
+    expect(headers).to.have.property('x-cache-status');
+  });
+
+  test("Search results contain 5 anime items with required schema", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.true;
+    expect(data.count).to.equal(5);
+    expect(Array.isArray(data.data)).to.be.true;
+    
+    const first = data.data[0];
+    expect(first).to.have.property("mal_id");
+    expect(first).to.have.property("title");
+    expect(first).to.have.property("images");
+  });
+}

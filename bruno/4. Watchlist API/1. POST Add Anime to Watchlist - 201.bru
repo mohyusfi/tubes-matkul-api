@@ -1,0 +1,66 @@
+meta {
+  name: 1. POST Add Anime to Watchlist - 201
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/watchlist
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "mal_id": 5114,
+    "item_type": "anime",
+    "title": "Fullmetal Alchemist: Brotherhood",
+    "image_url": "https://cdn.myanimelist.net/images/anime/1223/96541.jpg",
+    "status": "watching",
+    "progress": 10,
+    "total_units": 64,
+    "score": 10,
+    "notes": "Mulai nonton ulang"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.id) {
+    bru.setEnvVar("watchlistId", res.body.data.id);
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.success: eq true
+  res.body.data.mal_id: eq 5114
+  res.body.data.item_type: eq anime
+}
+
+tests {
+  test("Status code is 201 Created", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("New watchlist item contains generated ID and matched fields", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.true;
+    expect(data.data.id).to.be.a("number");
+    expect(data.data.title).to.equal("Fullmetal Alchemist: Brotherhood");
+    expect(data.data.status).to.equal("watching");
+    expect(data.data.progress).to.equal(10);
+    expect(data.data.total_units).to.equal(64);
+  });
+
+  test("Saved watchlist ID in environment", function() {
+    expect(bru.getEnvVar("watchlistId")).to.be.a("number");
+  });
+}

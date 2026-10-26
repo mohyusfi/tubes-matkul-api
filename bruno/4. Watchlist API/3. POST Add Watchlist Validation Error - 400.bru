@@ -1,0 +1,44 @@
+meta {
+  name: 3. POST Add Watchlist Validation Error - 400
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/watchlist
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "mal_id": 9999,
+    "item_type": "comic",
+    "title": "Invalid Type Watchlist Item"
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.success: eq false
+}
+
+tests {
+  test("Status code is 400 Bad Request for invalid item_type", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("Validation message mentions supported item types", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.false;
+    expect(data.message).to.include("item_type");
+  });
+}

@@ -1,0 +1,53 @@
+meta {
+  name: 4. POST Login User - 200
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "{{testUsername}}",
+    "password": "{{testPassword}}"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.token) {
+    bru.setEnvVar("token", res.body.data.token);
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.token: isDefined
+}
+
+tests {
+  test("Status code is 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Login returns valid JWT token and user info", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.true;
+    expect(data.data.token).to.be.a("string");
+    expect(data.data.token.length).to.be.above(20);
+    expect(data.data.user).to.be.an("object");
+    expect(data.data.user.username).to.equal(bru.getEnvVar("testUsername"));
+  });
+
+  test("Token variable is captured in environment", function() {
+    expect(bru.getEnvVar("token")).to.be.a("string");
+  });
+}

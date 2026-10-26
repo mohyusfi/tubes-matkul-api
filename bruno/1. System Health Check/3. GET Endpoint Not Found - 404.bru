@@ -1,0 +1,28 @@
+meta {
+  name: 3. GET Endpoint Not Found - 404
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/endpoint-tidak-ada
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+  res.body.success: eq false
+}
+
+tests {
+  test("Status code is 404 Not Found", function() {
+    expect(res.getStatus()).to.equal(404);
+  });
+
+  test("Error payload contains descriptive message", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.false;
+    expect(data.message).to.be.a("string");
+  });
+}

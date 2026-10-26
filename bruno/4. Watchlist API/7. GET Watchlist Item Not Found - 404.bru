@@ -1,0 +1,32 @@
+meta {
+  name: 7. GET Watchlist Item Not Found - 404
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/watchlist/999999
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+assert {
+  res.status: eq 404
+  res.body.success: eq false
+}
+
+tests {
+  test("Status code is 404 Not Found for non-existent item ID", function() {
+    expect(res.getStatus()).to.equal(404);
+  });
+
+  test("Error message states item not found", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.false;
+    expect(data.message).to.include("tidak ditemukan");
+  });
+}

@@ -1,0 +1,39 @@
+meta {
+  name: 3. POST Register Duplicate Username - 409
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/auth/register
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "{{testUsername}}",
+    "password": "{{testPassword}}"
+  }
+}
+
+assert {
+  res.status: eq 409
+  res.body.success: eq false
+}
+
+tests {
+  test("Status code is 409 Conflict for existing username", function() {
+    expect(res.getStatus()).to.equal(409);
+  });
+
+  test("Conflict message explains username already taken", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.false;
+    expect(data.message).to.include("Username sudah digunakan");
+  });
+}

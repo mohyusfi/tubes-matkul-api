@@ -1,0 +1,49 @@
+meta {
+  name: 2. POST Add Duplicate Watchlist - 409
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/watchlist
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "mal_id": 5114,
+    "item_type": "anime",
+    "title": "Fullmetal Alchemist: Brotherhood",
+    "image_url": "https://cdn.myanimelist.net/images/anime/1223/96541.jpg",
+    "status": "watching",
+    "progress": 10,
+    "total_units": 64,
+    "score": 10
+  }
+}
+
+assert {
+  res.status: eq 409
+  res.body.success: eq false
+}
+
+tests {
+  test("Status code is 409 Conflict for duplicate item", function() {
+    expect(res.getStatus()).to.equal(409);
+  });
+
+  test("Message explains item is already in watchlist", function() {
+    const data = res.getBody();
+    expect(data.success).to.be.false;
+    expect(data.message).to.include("sudah ada");
+  });
+}

@@ -1,0 +1,29 @@
+meta {
+  name: 2. OPTIONS CORS Preflight - 204
+  type: http
+  seq: 2
+}
+
+options {
+  url: {{baseUrl}}/api/watchlist
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+  res.headers["access-control-allow-origin"]: eq *
+}
+
+tests {
+  test("CORS preflight status is 204 No Content", function() {
+    expect(res.getStatus()).to.equal(204);
+  });
+
+  test("CORS headers allow all origins and expected methods", function() {
+    const headers = res.getHeaders();
+    expect(headers['access-control-allow-origin']).to.equal('*');
+    expect(headers['access-control-allow-methods']).to.include('GET');
+    expect(headers['access-control-allow-methods']).to.include('POST');
+  });
+}
