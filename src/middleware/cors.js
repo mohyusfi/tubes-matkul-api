@@ -9,7 +9,7 @@ export function handleCors(req, res) {
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
-    return true; // Menandakan request telah selesai ditangani
+    return true; 
   }
 
   return false;
