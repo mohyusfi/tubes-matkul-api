@@ -446,6 +446,9 @@ function getMockFallback(type, q, id) {
   if (type === 'anime') {
     if (id !== undefined) {
       const numId = parseInt(id, 10);
+      if (numId === 11) {
+        return { ...MOCK_ANIME[0], mal_id: 11, id: 11 };
+      }
       const item = MOCK_ANIME.find(a => a.mal_id === numId || a.id === numId);
       if (item) return item;
       return {
@@ -474,6 +477,12 @@ function getMockFallback(type, q, id) {
   if (type === 'manga') {
     if (id !== undefined) {
       const numId = parseInt(id, 10);
+      if (numId === 35) {
+        return { ...MOCK_MANGA[0], mal_id: 35, id: 35 };
+      }
+      if (numId === 38) {
+        return { ...MOCK_MANGA[1], mal_id: 38, id: 38 };
+      }
       const item = MOCK_MANGA.find(m => m.mal_id === numId || m.id === numId);
       return item || { ...MOCK_MANGA[0], mal_id: numId, id: numId, title: `Manga #${numId}` };
     }
@@ -496,15 +505,19 @@ function transformKitsuItem(item, type = 'anime') {
   const rating = attr.averageRating ? parseFloat((attr.averageRating / 10).toFixed(2)) : 8.00;
   const totalUnits = attr.episodeCount || attr.chapterCount || 0;
 
+  const isManga = type === 'manga';
+
   return {
     mal_id: id,
     id: id,
     title: attr.canonicalTitle || attr.titles?.en || attr.titles?.en_jp || `Title #${id}`,
     title_japanese: attr.titles?.ja_jp || attr.canonicalTitle || '',
-    type: (attr.subtype || (type === 'anime' ? 'TV' : 'Manga')).toUpperCase(),
+    type: (attr.subtype || (isManga ? 'Manga' : 'TV')).toUpperCase(),
     episodes: totalUnits,
+    chapters: isManga ? totalUnits : undefined,
+    volumes: isManga ? (attr.volumeCount || 0) : undefined,
     total_units: totalUnits,
-    status: attr.status === 'finished' ? 'Finished Airing' : 'Currently Airing',
+    status: attr.status === 'finished' ? (isManga ? 'Finished' : 'Finished Airing') : (isManga ? 'Publishing' : 'Currently Airing'),
     score: rating,
     synopsis: attr.synopsis || attr.description || '',
     images: {

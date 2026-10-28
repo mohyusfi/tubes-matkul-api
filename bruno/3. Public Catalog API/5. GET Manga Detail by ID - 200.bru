@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/public/manga/11
+  url: {{baseUrl}}/api/public/manga/35
   body: none
   auth: none
 }
@@ -13,7 +13,7 @@ get {
 assert {
   res.status: eq 200
   res.body.success: eq true
-  res.body.data.mal_id: eq 11
+  res.body.data.id: eq 35
 }
 
 tests {
@@ -21,11 +21,11 @@ tests {
     expect(res.getStatus()).to.equal(200);
   });
 
-  test("Detail manga has chapters, volumes, and authors", function() {
+  test("Detail manga has title, chapters, and score", function() {
     const data = res.getBody();
     expect(data.success).to.be.true;
-    expect(data.data.mal_id).to.equal(11);
-    expect(data.data.title).to.include("Naruto");
+    expect(data.data.id).to.equal(35);
+    expect(data.data.title.toLowerCase()).to.include("naruto");
     expect(data.data).to.have.property("chapters");
     expect(data.data).to.have.property("score");
   });

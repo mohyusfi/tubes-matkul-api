@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/public/anime/20
+  url: {{baseUrl}}/api/public/anime/11
   body: none
   auth: none
 }
@@ -13,7 +13,7 @@ get {
 assert {
   res.status: eq 200
   res.body.success: eq true
-  res.body.data.mal_id: eq 20
+  res.body.data.id: eq 11
 }
 
 tests {
@@ -21,13 +21,13 @@ tests {
     expect(res.getStatus()).to.equal(200);
   });
 
-  test("Detail anime schema has title, score, episodes and genres", function() {
+  test("Detail anime schema has title, score, episodes and images", function() {
     const data = res.getBody();
     expect(data.success).to.be.true;
-    expect(data.data.mal_id).to.equal(20);
+    expect(data.data.id).to.equal(11);
     expect(data.data.title).to.include("Naruto");
     expect(data.data).to.have.property("episodes");
     expect(data.data).to.have.property("score");
-    expect(data.data).to.have.property("genres");
+    expect(data.data).to.have.property("images");
   });
 }

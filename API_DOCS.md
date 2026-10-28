@@ -182,10 +182,10 @@ curl -X GET "http://localhost:3000/api/public/anime?q=naruto&limit=5"
 ---
 
 ### `GET /api/public/anime/:id`
-Mengambil informasi detail 1 anime berdasarkan MyAnimeList ID.
+Mengambil informasi detail 1 anime berdasarkan ID katalog (Kitsu API ID).
 
 #### Path Parameters
-- `id` (integer, wajib): MyAnimeList ID (contoh: `20`).
+- `id` (integer, wajib): Katalog ID (contoh: `11`).
 
 #### Response `200 OK`
 ```json
@@ -193,22 +193,28 @@ Mengambil informasi detail 1 anime berdasarkan MyAnimeList ID.
   "success": true,
   "fromCache": true,
   "data": {
-    "mal_id": 20,
+    "id": 11,
+    "mal_id": 11,
     "title": "Naruto",
     "title_japanese": "NARUTO -ナルト-",
     "type": "TV",
     "episodes": 220,
+    "total_units": 220,
     "status": "Finished Airing",
-    "score": 7.99,
+    "score": 8.02,
     "synopsis": "Moments prior to Naruto Uzumaki's birth...",
-    "genres": [{ "name": "Action" }, { "name": "Adventure" }]
+    "images": {
+      "jpg": {
+        "image_url": "https://media.kitsu.app/anime/11/poster_image/medium.jpeg"
+      }
+    }
   }
 }
 ```
 
 #### Contoh cURL:
 ```bash
-curl -X GET http://localhost:3000/api/public/anime/20
+curl -X GET http://localhost:3000/api/public/anime/11
 ```
 
 ---

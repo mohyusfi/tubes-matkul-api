@@ -32,14 +32,15 @@ tests {
     expect(headers).to.have.property('x-cache-status');
   });
 
-  test("Manga items contain mal_id, title, chapters, and score", function() {
+  test("Manga items contain id, title, and images", function() {
     const data = res.getBody();
     expect(data.success).to.be.true;
     expect(data.count).to.equal(5);
     expect(Array.isArray(data.data)).to.be.true;
 
     const first = data.data[0];
-    expect(first).to.have.property("mal_id");
+    expect(first).to.have.property("id");
     expect(first).to.have.property("title");
+    expect(first).to.have.property("images");
   });
 }
