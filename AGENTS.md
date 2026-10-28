@@ -18,7 +18,7 @@
    ├── db/            # Koneksi database & inisialisasi tabel raw SQL
    ├── middleware/    # Middleware HTTP (auth, body parser, cors)
    ├── routes/        # Route handler (public, auth, watchlist)
-   ├── services/      # Layanan eksternal (Jikan API, in-memory cache, logger)
+   ├── services/      # Layanan eksternal (Kitsu API, in-memory cache, logger)
    ├── server.js      # Entry point runtime (baca .env, init DB, listen PORT)
    └── web.js         # Core web application (request router & dispatcher)
    ```

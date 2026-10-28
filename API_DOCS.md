@@ -15,9 +15,9 @@ Dokumentasi lengkap seluruh endpoint REST API.
 | **Health** | `GET` | `/` | Tidak | Memeriksa status server |
 | **Auth** | `POST` | `/api/auth/register` | Tidak | Mendaftarkan akun user baru |
 | **Auth** | `POST` | `/api/auth/login` | Tidak | Login dan mendapatkan token JWT |
-| **Public** | `GET` | `/api/public/anime` | Tidak | Mencari katalog anime dari Jikan API |
+| **Public** | `GET` | `/api/public/anime` | Tidak | Mencari katalog anime dari Kitsu API |
 | **Public** | `GET` | `/api/public/anime/:id` | Tidak | Mengambil detail lengkap anime |
-| **Public** | `GET` | `/api/public/manga` | Tidak | Mencari katalog manga dari Jikan API |
+| **Public** | `GET` | `/api/public/manga` | Tidak | Mencari katalog manga dari Kitsu API |
 | **Public** | `GET` | `/api/public/manga/:id` | Tidak | Mengambil detail lengkap manga |
 | **Watchlist** | `GET` | `/api/watchlist` | **Ya** | Mendapatkan seluruh watchlist user |
 | **Watchlist** | `GET` | `/api/watchlist/:id` | **Ya** | Mengambil 1 item watchlist milik user |
@@ -140,10 +140,10 @@ curl -X POST http://localhost:3000/api/auth/login \
 
 ---
 
-## 3. Public Catalog API (Jikan MyAnimeList)
+## 3. Public Catalog API (Kitsu API Edge)
 
 ### `GET /api/public/anime`
-Mencari anime berdasarkan judul melalui Jikan API v4. Dilengkapi header `X-Cache-Status` (`HIT` atau `MISS`).
+Mencari anime berdasarkan judul melalui Kitsu API (Edge Specification). Dilengkapi header `X-Cache-Status` (`HIT` atau `MISS`).
 
 #### Query Parameters
 - `q` (string, opsional): Kata kunci judul anime (contoh: `naruto`).

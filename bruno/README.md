@@ -34,5 +34,5 @@ Untuk menjalankan seluruh rangkaian pengujian secara otomatis tanpa kegagalan:
 3. Urutan folder yang akan dieksekusi:
    - **`1. System Health Check/`**: Memeriksa health endpoint `/`, CORS Preflight `OPTIONS`, dan rute 404.
    - **`2. Auth API/`**: Mendaftarkan user unik, menguji validasi password & penolakan duplikasi, lalu melakukan login dan menyimpan JWT ke environment variabel `token`.
-   - **`3. Public Catalog API/`**: Menguji pencarian dan pengambilan data detail katalog anime dan manga dari Jikan API serta verifikasi cache.
+   - **`3. Public Catalog API/`**: Menguji pencarian dan pengambilan data detail katalog anime dan manga dari Kitsu API serta verifikasi cache.
    - **`4. Watchlist API/`**: Menguji seluruh siklus hidup CRUD (Create, Read, Update, Delete) watchlist lokal berotentikasi Bearer Token dan otomasi chaining ID item.

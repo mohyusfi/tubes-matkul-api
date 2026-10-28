@@ -1,7 +1,7 @@
 # Product Requirements Document (PRD): Anime & Manga Watchlist Tracker API
 
 ## 1. Ringkasan Eksekutif (Executive Summary)
-**Anime & Manga Watchlist Tracker API** adalah spesifikasi layanan REST API untuk memenuhi tugas besar mata kuliah pemrograman API. API ini memadukan data katalog publik dari **Jikan API (Unofficial MyAnimeList API v4)** dengan database lokal **SQLite** untuk mencatat status tontonan anime dan bacaan manga pengguna secara terorganisir.
+**Anime & Manga Watchlist Tracker API** adalah spesifikasi layanan REST API untuk memenuhi tugas besar mata kuliah pemrograman API. API ini memadukan data katalog publik dari **Kitsu API (Edge Specification / JSON:API)** dengan database lokal **SQLite** untuk mencatat status tontonan anime dan bacaan manga pengguna secara terorganisir.
 
 Seluruh arsitektur dibangun di atas standar native runtime Node.js tanpa mengandalkan framework pihak ketiga seperti Express, dengan logging standar bebas emoji, serta sentralisasi seluruh konfigurasi di berkas `.env`.
 
@@ -27,11 +27,11 @@ Seluruh arsitektur dibangun di atas standar native runtime Node.js tanpa mengand
      ```
      [2026-10-26 12:00:01] [INFO] [SERVER] Server berjalan pada http://localhost:3000
      [2026-10-26 12:00:05] [INFO] [HTTP] GET /api/public/anime?q=naruto 200 - 45ms
-     [2026-10-26 12:00:10] [WARN] [CACHE] Cache miss untuk key: jikan:anime:naruto
+     [2026-10-26 12:00:10] [WARN] [CACHE] Cache miss untuk key: kitsu:anime:naruto
      [2026-10-26 12:00:12] [ERROR] [AUTH] Percobaan login gagal untuk user: anonymous
      ```
-5. **In-Memory Caching untuk Ketahanan Jikan API**:
-   - Panggilan ke Jikan API dibatasi oleh rate limit (~3 req/s). Hasil pencarian dan detail anime/manga wajib disimpan di cache in-memory sementara dengan durasi TTL (Time-To-Live) yang diatur di `.env`.
+5. **In-Memory Caching untuk Ketahanan Kitsu API**:
+   - Panggilan ke Kitsu API dioptimalkan dengan in-memory cache sementara dengan durasi TTL (Time-To-Live) yang diatur di `.env`.
 
 ### 2.1 Struktur Direktori Proyek (Directory Layout)
 
@@ -39,8 +39,8 @@ Seluruh arsitektur dibangun di atas standar native runtime Node.js tanpa mengand
 src/
 ├── db/            # Koneksi dan skema database SQLite (raw SQL)
 ├── middleware/    # Middleware HTTP native (auth JWT, body parser stream, CORS)
-├── routes/        # Router handler (public Jikan, auth user, watchlist CRUD)
-├── services/      # Layanan pendukung (Jikan client, in-memory cache, logger standar)
+├── routes/        # Router handler (public Kitsu API, auth user, watchlist CRUD)
+├── services/      # Layanan pendukung (Kitsu API client, in-memory cache, logger standar)
 ├── server.js      # Entry point runtime (baca .env, inisialisasi DB, listen HTTP server)
 └── web.js         # Core web application (request router, dispatcher, & error handling)
 ```
@@ -57,7 +57,7 @@ Pembagian peran:
 |---|---|---|---|
 | `PORT` | Number | `3000` | Port listen server HTTP |
 | `NODE_ENV` | String | `development` | Environment mode (`development`/`production`) |
-| `JIKAN_API_BASE_URL` | String | `https://api.jikan.moe/v4` | Base endpoint MyAnimeList Jikan API |
+| `KITSU_API_BASE_URL` | String | `https://kitsu.io/api/edge` | Base endpoint Kitsu API Edge |
 | `CACHE_TTL_SECONDS` | Number | `300` | Waktu kedaluwarsa cache in-memory dalam detik |
 | `DB_PATH` | String | `./watchlist.db` | Lokasi file database SQLite lokal |
 | `JWT_SECRET` | String | *(rahasia)* | Kunci rahasia untuk enkripsi token JWT (min 32 karakter) |
@@ -68,12 +68,12 @@ Pembagian peran:
 
 ## 4. Pembagian Lingkup API
 
-### A. Public API (Jikan API Gateway)
+### A. Public API (Kitsu API Gateway)
 Digunakan untuk mencari judul dan detail anime/manga asli tanpa perlu autentikasi. Dilengkapi in-memory cache dan proteksi error 429.
 - `GET /api/public/anime?q={title}&page={page}&limit={limit}`: Mencari katalog anime.
-- `GET /api/public/anime/:id`: Mengambil detail lengkap anime berdasarkan ID MyAnimeList.
+- `GET /api/public/anime/:id`: Mengambil detail lengkap anime berdasarkan ID Kitsu API.
 - `GET /api/public/manga?q={title}&page={page}&limit={limit}`: Mencari katalog manga.
-- `GET /api/public/manga/:id`: Mengambil detail lengkap manga berdasarkan ID MyAnimeList.
+- `GET /api/public/manga/:id`: Mengambil detail lengkap manga berdasarkan ID Kitsu API.
 
 ### B. Auth API (User Management)
 Menyediakan autentikasi JWT sederhana untuk mengisolasi data watchlist tiap user.
@@ -158,5 +158,5 @@ Semua respons API dikirimkan dalam format JSON standar:
 | `403 Forbidden` | Akses Dilarang | User mencoba mengakses item milik user lain |
 | `404 Not Found` | Tidak Ditemukan | Endpoint, anime, atau item watchlist tidak ada |
 | `409 Conflict` | Data Duplikat | Username sudah dipakai atau anime/manga sudah ada di list |
-| `429 Too Many Requests` | Limit Terlampaui | Jikan API menolak request karena rate limit |
+| `429 Too Many Requests` | Limit Terlampaui | Kitsu API menolak request karena limit terlampaui |
 | `500 Internal Error` | Kegagalan Server | Kesalahan internal server / koneksi database gagal |

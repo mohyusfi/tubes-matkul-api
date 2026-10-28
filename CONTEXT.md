@@ -1,6 +1,6 @@
 # Anime & Manga Watchlist Tracker
 
-REST API yang mengintegrasikan Jikan API (MyAnimeList) untuk pencarian katalog publik dengan database lokal untuk melacak status tontonan dan bacaan pengguna.
+REST API yang mengintegrasikan Kitsu API (Edge Specification) untuk pencarian katalog publik dengan database lokal untuk melacak status tontonan dan bacaan pengguna.
 
 ## Language
 
@@ -25,5 +25,5 @@ Penilaian numerik pribadi pengguna terhadap suatu entitas dengan rentang skala 1
 _Avoid_: Rating, stars, grade
 
 **PublicCatalog**:
-Data referensi asli anime/manga yang diambil secara langsung dari Jikan API (MyAnimeList).
-_Avoid_: ExternalDB, MALData
+Data referensi asli anime/manga yang diambil secara langsung dari Kitsu API (Edge Specification).
+_Avoid_: ExternalDB, MALData, JikanData
