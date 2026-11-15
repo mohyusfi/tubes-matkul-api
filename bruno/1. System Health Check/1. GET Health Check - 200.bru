@@ -20,7 +20,7 @@ tests {
   test("Status code is 200 OK", function() {
     expect(res.getStatus()).to.equal(200);
   });
-
+  
   test("Server status is online with valid metadata", function() {
     const data = res.getBody();
     expect(data.status).to.equal("online");
