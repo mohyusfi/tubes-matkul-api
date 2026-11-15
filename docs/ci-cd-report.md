@@ -33,3 +33,4 @@ Error [ERR_UNKNOWN_BUILTIN_MODULE]: No such built-in module: node:sqlite
 | ALIFIAS | F5512520099 | QA / Testing | Memastikan `npm ci` dan `npm test` berjalan lokal serta memverifikasi skenario gagal & perbaikan. |
 | Akshan Maulana R. | F5512530114 | Developer / Debugging | Mengidentifikasi error modul `node:sqlite` pada Node.js v20 dan memperbarui konfigurasi ke Node.js v24. |
 | Nefaldi | F5512520082 | Dokumentasi | Menyusun `README.md`, ringkasan error/perbaikan, dan mengumpulkan bukti screenshot/URL pipeline. |
+| Ilham Arifin | F5512530109 | Verification & Review | Memverifikasi hasil eksekusi workflow di GitHub Actions dan meninjau kelengkapan laporan akhir. |
