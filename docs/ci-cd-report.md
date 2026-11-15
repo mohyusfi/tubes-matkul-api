@@ -6,8 +6,8 @@
 - **Branch**: `feature/ci-cd` -> `main`
 
 ## 2. Bukti Eksekusi Pipeline
-- **Run Gagal (Merah)**: `<tempel URL GitHub Actions run gagal atau screenshot di sini>`
-- **Run Sukses (Hijau)**: `<tempel URL GitHub Actions run sukses atau screenshot di sini>`
+- **Run Gagal (Merah)**: https://github.com/mohyusfi/tubes-matkul-api/actions/runs/43703202853
+- **Run Sukses (Hijau)**: https://github.com/mohyusfi/tubes-matkul-api/actions/runs/43713546939/job/132815232416
 
 ## 3. Ringkasan Error dan Langkah Perbaikan
 
@@ -29,6 +29,7 @@ Error [ERR_UNKNOWN_BUILTIN_MODULE]: No such built-in module: node:sqlite
 
 | Nama Anggota | NIM | Peran | Tugas & Penjelasan |
 | :--- | :--- | :--- | :--- |
-| `<Nama 1>` | `<NIM 1>` | CI/CD Engineer | Membuat workflow `.github/workflows/ci.yml` dan mengonfigurasi trigger `push` & `pull_request`. |
-| `<Nama 2>` | `<NIM 2>` | QA / Testing | Memastikan `npm ci` dan `npm test` berjalan lokal serta memverifikasi skenario gagal & perbaikan. |
-| `<Nama 3>` | `<NIM 3>` | Dokumentasi | Menyusun `README.md`, ringkasan error/perbaikan, dan mengumpulkan bukti screenshot/URL pipeline. |
+| MOH. YUSFI LAKHAFIDUN | F5512520089 | CI/CD Engineer | Membuat workflow `.github/workflows/ci.yml` dan mengonfigurasi trigger `push` & `pull_request`. |
+| ALIFIAS | F5512520099 | QA / Testing | Memastikan `npm ci` dan `npm test` berjalan lokal serta memverifikasi skenario gagal & perbaikan. |
+| Akshan Maulana R. | F5512530114 | Developer / Debugging | Mengidentifikasi error modul `node:sqlite` pada Node.js v20 dan memperbarui konfigurasi ke Node.js v24. |
+| Nefaldi | F5512520082 | Dokumentasi | Menyusun `README.md`, ringkasan error/perbaikan, dan mengumpulkan bukti screenshot/URL pipeline. |
